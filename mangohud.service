@@ -1,0 +1,25 @@
+# ~/.config/systemd/user/mangohud.service
+[Unit]
+Description="Mangohud using config ~/.config/mangohud.conf"
+Requires=gamescope-session.service
+PartOf=gamescope-session.service
+BindsTo=gamescope-session.service
+After=graphical-session.target
+
+[Service]
+Environment=DISPLAY=:0
+Environment=STEAM_MANGOAPP_HORIZONTAL_SUPPORTED=1
+Environment=STEAM_DISABLE_MANGOAPP_ATOM_WORKAROUND=1
+Environment=MANGOHUD_CONFIGFILE=/home/deck/.config/mangohud.conf
+StandardOutput=journal
+StandardError=journal
+Type=simple
+ExecStartPre=/usr/bin/sleep 2
+ExecStartPre=/usr/bin/sh -c 'while [ ! -S /tmp/.X11-unix/X0 ]; do sleep 1; done'
+ExecStartPre=-/usr/bin/killall mangoapp
+ExecStart=/usr/bin/mangoapp
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=default.target
