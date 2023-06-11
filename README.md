@@ -15,8 +15,7 @@ systemctl --user enable --now mangohud.service
 
 ## Removal
 ```
-systemctl --user stop mangohud
-systemctl --user disable mangohud 
+systemctl --user disable --now mangohud 
 
 # optional
 rm ~/.config/systemd/user/mangohud.service
